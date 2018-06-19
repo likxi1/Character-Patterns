@@ -30,6 +30,20 @@ void pPattern(int **arr, int m, int n) {
     cout << endl;
 }
 
+int** alloc(int m, int n) {
+    int **arr = new int *[m];
+    for (int i = 0; i < m; ++i) arr[i] = new int[n]();
+    return arr;
+}
+
+void freeMem(int **arr, int m, int n) {
+    for(int i = 0; i < m; ++i) {
+        delete [] arr[i];
+        arr[i] = NULL;
+    }
+    arr = NULL;
+}
+
 void readfile() {
     const string path = "/Users/dailong/Desktop/C++Basics/Character Patterns/Character Patterns/data";
     int **arr = nullptr;
@@ -48,17 +62,18 @@ void readfile() {
         FILE >> m >> n;
         m = 3 * m + 1;
         n = 3 * n + 1;
-        arr = new int *[m];
-        for (int i = 0; i < m; ++i) arr[i] = new int[n]();
+        
+        arr = alloc(m, n);
         
         fildot(arr, m, n);
         pPattern(arr, m, n);
+        
+        freeMem(arr, m, n);
     }
     
 }
 
 int main(int argc, const char * argv[]) {
     readfile();
-    std::cout << "Hello, World!\n";
     return 0;
 }
